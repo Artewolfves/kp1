@@ -1,19 +1,30 @@
 import React, { useState } from 'react'
 import api from '../api'
 const Users = () => {
-    const [users, setUsers] = useState(api.users.fetchAll());
+  const [users, setUsers] = useState(api.users.fetchAll());
   const hendleDelete = (id) => {
     setUsers(prevState => prevState.filter((user)=> user._id!==id))
   
   }
-  const renderPhrase = (number) =>{
-  
-
-  }
+  const renderPhrase = () => {
+   
+    if (users.length < 0) 
+    return <span className = "badge bg-primary" > {users.length} человек тусанёт с тобой сегодня</span>;
+    if (users.length >=5) 
+    return <span className = "badge bg-primary" > {users.length} человек тусанёт с тобой сегодня</span>;
+    if (users.length <5 ) 
+    return <span className = "badge bg-primary" > {users.length} человека тусанёт с тобой сегодня</span>;
     
-    return (
+  }
+ 
+
+  if (users.length === 0 ) 
+  return <h2><span className = "badge bg-danger" > Никто с тобой не тусанёт</span></h2> ;
+
+  return (
 <>
-<h2><span className = "badge bg-primary"></span></h2>
+  <h2>{renderPhrase()}</h2>
+    
     <table className ="table">
   <thead>
     <tr>
@@ -29,14 +40,11 @@ const Users = () => {
     {users.map((user) => (
     <tr key={users._id}>
       <td >{user.name}</td>
-      
-      
-      <td> {users.map((qualities) => (
-       <span className={'badge m-1 bg-' + qualities.color} key={qualities._id}>{user.qualities.name}</span> 
+      <td>
+         {user.qualities.map((item) => (
+       <span className={'badge m-1 bg-' + item.color} key={item._id}>{item.name}</span> 
        ))} 
        </td>
-         
-    
       <td >{user.profession.name}</td>
       <td >{user.completedMeetings}</td>
       <td>{user.rate}</td>
